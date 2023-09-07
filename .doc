@@ -1,0 +1,13 @@
+Création Livre d'Or par Classe php
+------------------------------# Restriction de Grafikart #--------------------------------
+- Classe Message pour représenter un message
+    - new Message(string $message, string $pseudo, DateTime $date = null)
+    - isValid(): bool verifie les caractères respectés ou non
+    - getErrors(): array tableau enregistrant les erreurs
+    - toHTML : Affiche le message en toHTML
+    - toJson : affiche le message en toJson
+- Classe GuestBook pour représenter Livre d'Or
+    -new GuestBook($fichier)
+    -addMessage(Message $message)
+    -getMessages() :array retourne un tableau des messages du livre d'or
+------------------------------------------------------------------------------------------*

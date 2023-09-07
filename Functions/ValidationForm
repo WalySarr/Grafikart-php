@@ -1,0 +1,11 @@
+<?php
+function validationForm($param, $errors, $validationFeedBack = "")
+{
+    if (isset($errors["$param"])) {
+        
+        return <<<HTML
+<div class="invalid-feedback">{$errors["$param"]}</div>
+HTML;
+    }
+}
+
