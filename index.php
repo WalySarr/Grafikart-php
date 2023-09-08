@@ -7,26 +7,28 @@ $error = null;
 $state = null;
 /** Déclaration du fichier */
 $file = __DIR__ . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR . "messages";
+$guestbook = new GuestBook($file);
+
 if (isset($_POST['pseudo'], $_POST['message'])) {
     $pseudo = $_POST['pseudo'];
     $userMessage = $_POST['message'];
     $message = new Message($pseudo, $userMessage);
-    $errors = $message->getErrors();
 
-    $guestbook = new GuestBook($file);
-    /* Gestion des etats d erreurs (Couleurs de fond du message d erreur) */
     if ($message->isValid()) {
+        $guestbook->addMessage($message);
         $state = "success";
         $errors[] = "Merci Pour Votre message";
         $pseudo = null;
         $userMessage = null;
-        
-        $messages = $guestbook->getMessage();
-        $guestbook->addMessage($message);
     } else {
+        $errors = $message->getErrors();
         $state = "danger";
     }
 }
+if(filesize($file) > 0){
+    $messages = $guestbook->getMessage();
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -57,9 +59,7 @@ if (isset($_POST['pseudo'], $_POST['message'])) {
                     <div class="form-floating my-2 has-validation">
                         <input type="text" name="pseudo" id="pseudo" class="form-control <?= $validationFeedBackState ?>" placeholder="Nom d'Utilisateur" <?php if (isset($pseudo)) : ?> value="<?= htmlentities($pseudo) ?>" <?php endif ?>>
                         <label for="pseudo">Nom d'Utilisateur</label>
-                        <?php if (isset($errors['message'])) : ?>
-                            <?= (validationForm('message', $errors, 'is-invalid')) ?>
-                        <?php endif ?>
+                        
                     </div>
                     <div class="form-floating my-2">
                         <textarea name="message" id="message" class="form-control" placeholder="Message"><?php if (isset($userMessage)) : echo htmlentities($userMessage) ?><?php endif ?></textarea>
